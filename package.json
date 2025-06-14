@@ -1,0 +1,29 @@
+{
+  "name": "yatirim-app",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.9",
+    "file-saver": "^2.0.5",
+    "next": "^14.2.28",
+    "react": "18.2.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-confetti": "^6.4.0",
+    "react-dom": "18.2.0",
+    "react-toastify": "^11.0.5",
+    "react-use": "^17.6.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.0",
+    "@types/react": "19.1.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.2.2"
+  }
+}
