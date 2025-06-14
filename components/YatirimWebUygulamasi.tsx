@@ -667,6 +667,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
       iterations={iterations}
       quantities={quantities}
       handleQuantityChange={handleQuantityChange}
+      handlePlanlamaKaydet={handlePlanlamaKaydet}
     />
     <div className="mt-4 text-center">
       <button
