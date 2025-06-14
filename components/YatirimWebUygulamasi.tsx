@@ -824,8 +824,8 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
                 return (
                   <div key={symbol} className="bg-white shadow rounded-lg p-4 flex flex-col gap-2 w-full max-w-[18rem]">
             <div className="font-semibold text-base">{symbol} - {prices[typedSymbol]} ₺</div>
-              <div className="text-sm text-gray-600">Eldeki: {stocks[typedSymbol]} adet</div>
-              <div className="text-sm text-blue-600">Planlanan: {planlamaLog[iterations]?.[typedSymbol] ?? 0} adet</div>
+              <div className="text-sm text-gray-600">Eldeki Adet: {stocks[typedSymbol]} </div>
+              <div className="text-sm text-blue-600">Planlanan Adet: {planlamaLog[iterations]?.[typedSymbol] ?? 0} </div>
             
 
 <input
