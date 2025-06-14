@@ -51,6 +51,7 @@ export default function YatirimPlanlama({ iterations, quantities, handleQuantity
                 min="0"
                 value={quantities[typedSymbol]}
                 onChange={(e) => handleQuantityChange(typedSymbol, e.target.value)}
+                onFocus={(e) => e.target.select()}
                 className="border rounded p-2 w-24"
               />
               <span className="text-base mb-2 leading-snug">adet</span>

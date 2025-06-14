@@ -163,7 +163,7 @@ const handleIntroSubmit = () => {
     botMsg = { sender: 'bot', text: `Memnun oldum ${trimmed}! Nasılsın bugün?` };
     setIntroStep(1);
   } else if (introStep === 1) {
-      if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi")  || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
+      if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi") || trimmed.toLowerCase().includes("İyi") || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
     {
     botMsg = { sender: 'bot', text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Hazırsan başlayalım mı?` };
     } else {
@@ -639,6 +639,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
           className="border rounded p-2 w-full"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
+          onFocus={(e) => e.target.select()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
