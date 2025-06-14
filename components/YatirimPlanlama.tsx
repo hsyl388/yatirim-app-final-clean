@@ -27,7 +27,7 @@ export default function YatirimPlanlama({ iterations, quantities, handleQuantity
         <h2 className="text-xl font-bold mb-4 text-gray-800">  {iterations + 1} . Tur İçin Öne Çıkan Başlıklar</h2>
         {currentNews.map((haber, index) => (
           <div key={index} className="text-base mb-2 leading-snug">
-            <strong>{haber.hisse} </strong> {haber.haber}
+          {haber.haber}
           </div>
         ))}
       </div>
