@@ -833,6 +833,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
   min="1"
   value={quantities[typedSymbol]}
   onChange={(e) => handleQuantityChange(typedSymbol, e.target.value)}
+  onFocus={(e) => e.target.select()}
   className="border rounded-lg px-4 py-2 w-28 text-center text-base shadow-sm"
 />
 
