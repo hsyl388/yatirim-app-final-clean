@@ -9,7 +9,16 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useRef } from "react";
 
-
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts"; //grafik için
 
 //EXCELE ÇIKTI VERSİN DİYE KÜTÜPHANE IMPORT EDİYORUZ
 import * as XLSX from "xlsx";
@@ -47,35 +56,35 @@ type StockMap = {
 
 
 const staticPrices: StockMap[] = [
-  { STK1: 60.65, STK2: 15.51, STK3: 23.95, STK4: 493.5 },
-  { STK1: 63.3, STK2: 16.2, STK3: 27.5, STK4: 553.9 },
-  { STK1: 56.75, STK2: 13.9, STK3: 25.05, STK4: 557.5 },
-  { STK1: 57.5, STK2: 13.59, STK3: 24.02, STK4: 547.5 },
-  { STK1: 61.15, STK2: 12.66, STK3: 25.08, STK4: 481 },
-  { STK1: 65.15, STK2: 10.99, STK3: 23.88, STK4: 460 },
-  { STK1: 71, STK2: 13.95, STK3: 25.92, STK4: 511 },
-  { STK1: 75.5, STK2: 14.14, STK3: 24.72, STK4: 531 },
-  { STK1: 86.2, STK2: 13.74, STK3: 21.7, STK4: 539.5 },
-  { STK1: 105.4, STK2: 15.99, STK3: 23.74, STK4: 542.5 },
-  { STK1: 117.4, STK2: 12.02, STK3: 21.6, STK4: 437.5 },
-  { STK1: 129.8, STK2: 10.18, STK3: 24.04, STK4: 474 },
-  { STK1: 139.5, STK2: 11.42 , STK3: 23.54, STK4: 521.5 },
+  { STK1: 60.65, STK2: 15.51, STK3: 23.95, STK4: 493.5 }, //0
+  { STK1: 63.3, STK2: 16.2, STK3: 27.5, STK4: 553.9 }, //1
+  { STK1: 56.75, STK2: 13.9, STK3: 25.05, STK4: 557.5 }, //2
+  { STK1: 57.5, STK2: 13.59, STK3: 24.02, STK4: 547.5 }, //3
+  { STK1: 61.15, STK2: 12.66, STK3: 25.08, STK4: 481 }, //4
+  { STK1: 65.15, STK2: 10.99, STK3: 23.88, STK4: 460 }, //5
+  { STK1: 71, STK2: 13.95, STK3: 25.92, STK4: 511 }, //6
+  { STK1: 75.5, STK2: 14.14, STK3: 24.72, STK4: 531 }, //7
+  { STK1: 86.2, STK2: 13.74, STK3: 21.7, STK4: 539.5 }, //8
+  { STK1: 105.4, STK2: 15.99, STK3: 23.74, STK4: 542.5 }, //9
+  { STK1: 117.4, STK2: 12.02, STK3: 21.6, STK4: 437.5 }, //10
+  { STK1: 129.8, STK2: 10.18, STK3: 24.04, STK4: 474 }, //11
+  { STK1: 139.5, STK2: 11.42 , STK3: 23.54, STK4: 521.5 }, //12
 ];
 
 
 const OPTIMIZED_QUANTITIES: Record<number, StockMap> = {
-  1: { STK1: 36, STK2: 49, STK3: 23, STK4: 11 },
-  2: { STK1: 5, STK2: 25, STK3: 40, STK4: 38 },
-  3: { STK1: 8, STK2: 48, STK3: 10, STK4: 50 },
-  4: { STK1: 8, STK2: 38, STK3: 17, STK4: 2 },
-  5: { STK1: 15, STK2: 12, STK3: 50, STK4: 15 },
-  6: { STK1: 11, STK2: 16, STK3: 32, STK4: 42 },
-  7: { STK1: 2, STK2: 20, STK3: 52, STK4: 50 },
-  8: { STK1: 36, STK2: 36, STK3: 13, STK4: 54 },
-  9: { STK1: 5, STK2: 17, STK3: 9, STK4: 44 },
- 10: { STK1: 34, STK2: 31, STK3: 16, STK4: 55 },
- 11: { STK1: 14, STK2: 53, STK3: 35, STK4: 3 },
- 12: { STK1: 4, STK2: 21, STK3: 37, STK4: 56 },
+  1: { STK1: 4, STK2: 5, STK3: 17, STK4: 9 },
+  2: { STK1: 4, STK2: 2, STK3: 2, STK4: 14 },
+  3: { STK1: 146, STK2: 1, STK3: 1, STK4: 5 },
+  4: { STK1: 110, STK2: 1, STK3: 77, STK4: 28 },
+  5: { STK1: 134, STK2: 2, STK3: 1, STK4: 9 },
+  6: { STK1: 10, STK2: 35, STK3: 11, STK4: 9 },
+  7: { STK1: 20, STK2: 5, STK3: 1, STK4: 8 },
+  8: { STK1: 57, STK2: 1, STK3: 2, STK4: 5 },
+  9: { STK1: 62, STK2: 50, STK3: 29, STK4: 1 },
+ 10: { STK1: 74, STK2: 3, STK3: 2, STK4: 43 },
+ 11: { STK1: 12, STK2: 2, STK3: 17, STK4: 8 },
+ 12: { STK1: 7, STK2: 17, STK3: 1, STK4: 9 },
 };
 
 
@@ -119,8 +128,12 @@ const chatEndRef = useRef<HTMLDivElement>(null);
 
   const [plannedQuantities, setPlannedQuantities] = useState<StockMap>({ STK1: 0, STK2: 0, STK3: 0, STK4: 0 });
 
+  const timestamp = new Date().toLocaleString();
   
 const { width, height } = useWindowSize();
+
+const [showChart, setShowChart] = useState(false); //grafik için eklendi
+
 
 /*
   function getTurMesaji(tur: number): string {
@@ -163,15 +176,22 @@ const handleIntroSubmit = () => {
     botMsg = { sender: 'bot', text: `Memnun oldum ${trimmed}! Nasılsın bugün?` };
     setIntroStep(1);
   } else if (introStep === 1) {
-      if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi") || trimmed.toLowerCase().includes("İyi") || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
+   if (trimmed.toLowerCase().includes("nasılsın") || trimmed.toLowerCase().includes("naber") || trimmed.toLowerCase().includes("senden") || trimmed.toLowerCase().includes("sen") )
+    {
+    botMsg = { sender: 'bot', text: `Teşekkürler, iyiyim. Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Hazırsan başlayalım mı??` };
+    }
+
+     else if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi") || trimmed.toLowerCase().includes("İyi") || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
     {
     botMsg = { sender: 'bot', text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Hazırsan başlayalım mı?` };
-    } else {
+    }   else {
       botMsg = { sender: 'bot', text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım` };
-    }   
+    }  
+    
+    
     setIntroStep(2);
   } else if (introStep === 2) {
-    if (trimmed.toLowerCase().includes("evet") || trimmed.toLowerCase().includes("olur") || trimmed.toLowerCase().includes("başlayalım")) {
+    if (trimmed.toLowerCase().includes("evet") || trimmed.toLowerCase().includes("olur") || trimmed.toLowerCase().includes("başlayalım")  || trimmed.toLowerCase().includes("tamam "))  {
       botMsg = { sender: 'bot', text: `Harika! O zaman hemen Simülasyon ekranına geçiyoruz.` };
       setIntroStep(3);
       setStep("plan");
@@ -231,6 +251,14 @@ useEffect(() => {
 }, [chatHistory]);
 
    
+const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, index) => ({
+  tur: index + 1,
+  STK1: prices.STK1,
+  STK2: prices.STK2,
+  STK3: prices.STK3,
+  STK4: prices.STK4,
+}));
+
 
   const handleChat = () => {
     
@@ -408,6 +436,14 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
       setStocks((prev) => ({ ...prev, [symbol]: prev[symbol] + quantity }));
       setHistory((prev) => [...prev,`Tur ${iterations + 1}:  ${symbol} hissesi alındı (${quantity} adet, toplam ${totalCost.toFixed(2)} ₺)`]);
 
+/*
+TIMESTAMP EKLEMEK İSTERSEM
+
+setHistory((prev) => [
+  ...prev,
+  `Tur ${iterations + 1}: [${timestamp}] ${symbol} hissesi alındı (${quantity} adet, toplam ${totalCost.toFixed(2)} ₺)`
+]); */
+      
       setHasActionsThisStep(true);
 
        setInputErrors(prev => ({ ...prev, [symbol]: undefined }));
@@ -424,6 +460,8 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
     return balance + totalStockValue - 100000; //kar zarar
   };
   
+
+
   const sellStock = (symbol: StockSymbol) => {
     const quantity = quantities[symbol];
     const totalGain = prices[symbol] * quantity;
@@ -485,6 +523,7 @@ useEffect(() => {
   if (step === 'execute' && iterations < maxIterations) {
     const mesaj = getTurMesaji(iterations + 1);
     setChatHistory(prev => [...prev, { sender: 'bot', text: mesaj }]);
+       setInputErrors({}); // tüm hata mesajlarını sıfırla
   }
 }, [step, iterations]);
 
@@ -498,7 +537,7 @@ useEffect(() => {
 const handlePlanlamaKaydet = () => {
   setPlanlamaLog(prev => {
     const updated = [...prev];
-    updated[iterations] = { ...quantities }; // her tur için index'e göre güncelle
+   updated[iterations] = { ...plannedQuantities }; // artık tahmini değerleri kaydediyoruz
     return updated;
   });
   setQuantities({ STK1: 0, STK2: 0, STK3: 0, STK4: 0 }); // sıfırla
@@ -540,13 +579,21 @@ const handlePlanlamaKaydet = () => {
   const hisseSheet = XLSX.utils.json_to_sheet(hisseData);
   XLSX.utils.book_append_sheet(workbook, hisseSheet, "Hisseler");
 
-  // Sayfa 4: Özet
-  const summarySheet = XLSX.utils.aoa_to_sheet([
-    ["Tarih", tarihSaat],
-    ["Bakiye", `${balance.toFixed(2)} ₺`],
-    ["Toplam Kar/Zarar", `${(calculateTotalProfit()).toFixed(2)} ₺`]
-  ]);
-  XLSX.utils.book_append_sheet(workbook, summarySheet, "Özet");
+  // Sayfa 4: Özet (12. Tur Fiyatlarıyla)
+const finalPrices = staticPrices[12]; // 12. tur fiyatları
+let finalStockValue = 0;
+for (const symbol of stockList) {
+  finalStockValue += stocks[symbol] * finalPrices[symbol];
+}
+const finalTotal = balance + finalStockValue;
+const finalProfit = finalTotal - 100000;
+
+const summarySheet = XLSX.utils.aoa_to_sheet([
+  ["Tarih", tarihSaat],
+  ["Bakiye (12. Tur Sonu)", `${finalTotal.toFixed(2)} ₺`],
+  ["Toplam Kar/Zarar", `${finalProfit.toFixed(2)} ₺`]
+]);
+XLSX.utils.book_append_sheet(workbook, summarySheet, "Özet");
 
   // Sayfa 5: Hisse Adetleri (Tur Bazlı)
 const stockLogSheetData = stockLog.map((entry, index) => ({
@@ -665,11 +712,21 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
       {step === 'plan' && (
   <div>
     <YatirimPlanlama
-      iterations={iterations}
-      quantities={quantities}
-      handleQuantityChange={handleQuantityChange}
-      handlePlanlamaKaydet={handlePlanlamaKaydet}
-    />
+  iterations={iterations}
+  quantities={quantities}
+  handleQuantityChange={handleQuantityChange}
+  handlePlanlamaKaydet={handlePlanlamaKaydet}
+  prices={prices}
+  balance={balance}
+  stocks={stocks}
+  setQuantities={setQuantities}
+  setInputErrors={setInputErrors}
+  inputErrors={inputErrors}
+  setPlannedQuantities={setPlannedQuantities}
+   priceHistory={staticPrices} //grafik için eklendi
+
+/>
+
     <div className="mt-4 text-center">
       <button
         onClick={handlePlanlamaKaydet}
@@ -691,12 +748,25 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
     <Confetti width={width} height={height} />
 
     <h1 className="text-3xl font-bold mb-4"> Simülasyon Tamamlandı! 🎉🎉🎉 </h1>
-    <p className="text-2xl font-bold mb-6">
-      Toplam {calculateTotalProfit() >= 0 ? "Kâr" : "Zarar"}: {calculateTotalProfit().toFixed(2)} ₺
+{(() => {
+  const finalPrices = staticPrices[12]; // 12. tur fiyatları
+  let finalStockValue = 0;
+  for (const symbol of stockList) {
+    finalStockValue += stocks[symbol] * finalPrices[symbol];
+  }
+  const finalTotal = balance + finalStockValue;
+  const finalProfit = finalTotal - 100000;
 
-      <p className="text-lg font-semibold mb-4">Katılımınız için teşekkür ederiz. Lütfen sonuç dosyasını anket linkinde ilgili alana ekleyip anketi tamamlayınız.</p>
+  return (
+    <p className="text-2xl font-bold mb-6">
+      Toplam {finalProfit >= 0 ? "Kâr" : "Zarar"}: {finalProfit.toFixed(2)} ₺
+      <p className="text-lg font-semibold mb-4">
+        Katılımınız için teşekkür ederiz. Lütfen sonuç dosyasını anket linkinde ilgili alana ekleyip anketi tamamlayınız.
+      </p>
     </p>
-    
+  );
+})()}
+
     {/* EXCEL İNDİRME BUTONU */}
     <button
       onClick={exportToExcel}
@@ -731,6 +801,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
   
           <div className="flex flex-col md:flex-row gap-6 mt-6">
   
+  
             {/* Chatbot */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
@@ -751,6 +822,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
                       {msg.text}
                   </div>
                  </div>
+                 
 
                 ))} <div ref={chatEndRef} /> 
               </div>
@@ -782,6 +854,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
 
 <div className="grid grid-cols-1 gap-3 bg-white p-4 rounded-xl shadow text-sm sm:text-base max-w-xl">
 
+
   
     <div className="flex justify-between">
     <span className="text-black-600 font-semibold"> Kullanılabilir Bakiye:</span>
@@ -789,6 +862,8 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
       {balance.toFixed(2)} ₺
     </span>
   </div>
+
+  
 
   <div className="flex justify-between">
     <span className="text-blue-900 font-semibold">Son Tur Kâr/Zarar:</span>
@@ -810,6 +885,36 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
       {maxIterations - iterations}
     </span>
   </div>
+  
+
+{/*GRAFİK İÇİN*/}
+          <button
+  onClick={() => setShowChart(prev => !prev)}
+  className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded"
+>
+  {showChart ? "Grafiği Gizle" : "Hisse Fiyat Grafiğini Göster"}
+</button>
+
+
+{/* GRAFİK */}
+{showChart && (
+  <div className="bg-white shadow rounded p-4 mt-4">
+    <h3 className="text-lg font-semibold mb-2">Hisse Fiyatları Grafiği</h3>
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={samplePriceHistory}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="tur" label={{ value: 'Tur', position: 'insideBottomRight', offset: -5 }} />
+        <YAxis label={{ value: 'Fiyat (₺)', angle: -90, position: 'insideLeft' }} />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="STK1" stroke="#8884d8" />
+        <Line type="monotone" dataKey="STK2" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="STK3" stroke="#ffc658" />
+        <Line type="monotone" dataKey="STK4" stroke="#ff7300" />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
+)}
 
 
 </div>
@@ -825,7 +930,8 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
                   <div key={symbol} className="bg-white shadow rounded-lg p-4 flex flex-col gap-2 w-full max-w-[18rem]">
             <div className="font-semibold text-base">{symbol} - {prices[typedSymbol]} ₺</div>
               <div className="text-sm text-gray-600">Eldeki Adet: {stocks[typedSymbol]} </div>
-              <div className="text-sm text-blue-600">Planlanan Adet: {planlamaLog[iterations]?.[typedSymbol] ?? 0} </div>
+       <span className="text-sm text-blue-600">Planlanan Adet: {plannedQuantities[typedSymbol] ?? 0}</span>
+
             
 
 <input
@@ -880,6 +986,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
 
             </div>
           </div>
+
   
           {/* Sonraki Tur Butonu */}
           <div className="mt-6 text-center">
@@ -899,5 +1006,3 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
   );
 
 }
-
-
