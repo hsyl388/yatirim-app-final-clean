@@ -186,28 +186,83 @@ const handleIntroSubmit = () => {
     {
     botMsg = { sender: 'bot', text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
     }   else {
-      botMsg = { sender: 'bot', text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?"` };
+      botMsg = { sender: 'bot', text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
     }  
      setIntroStep(2);
 
-      } else if (introStep === 2) {
-    // 2) Risk profilini al ➜ plan'a geç
-    const risk = parseInt(trimmed, 10);
-    if (Number.isNaN(risk) || risk < 1 || risk > 5) {
-      botMsg = { sender: 'bot', text: "Lütfen 1 ile 5 arasında bir sayı girer misin? (1=Çok temkinli, 5=Agresif)" };
-      // introStep 2'de kal
-    } else {
-      setRiskProfile(risk);
-      botMsg = { sender: 'bot', text: `Teşekkürler! Risk profilini ${risk}/5 olarak not aldım. Şimdi yatırım planlamasına geçiyoruz.` };
-      setIntroStep(3);
-      setStep("plan"); // doğrudan planlama adımına geç
-    }
+} else if (introStep === 2) {
+  // 2️⃣ Risk profilini al ➜ ardından yatırım süresi sor
+  const risk = parseInt(trimmed, 10);
+  if (Number.isNaN(risk) || risk < 1 || risk > 5) {
+    botMsg = { sender: 'bot', text: "Lütfen 1 ile 5 arasında bir sayı girer misin? (1=Çok temkinli, 5=Agresif)" };
   } else {
-    // Extra güvenlik: akış dışı olursa
-    botMsg = { sender: 'bot', text: "Planlamaya devam edelim mi?" };
+    setRiskProfile(risk);
+    const msg1 = { sender: 'bot', text: `Teşekkürler! Risk profilini ${risk}/5 olarak not aldım.` };
+    const msg2 = { sender: 'bot', text: "Peki yatırımlarını genellikle ne kadar süreyle yaparsın? Aşağıdakilerden birini yazabilirsin:\n\n• 0-6 Ay\n• 6-12 Ay\n• 1-3 Yıl\n• 3 Yıldan Uzun" };
+    setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
+    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
+    setInputMessage("");
+    setIntroStep(3); // yatırım süresi bekleme
+    return;
   }
 
+} else if (introStep === 3) {
+  // 3️⃣ Yatırım süresi yanıtı ➜ onay iste
+  const lower = trimmed.toLowerCase();
+  const validDurations = ["0-6", "6-12", "1-3", "3", "uzun", "yıl", "ay"];
+  
+  if (validDurations.some(k => lower.includes(k))) {
+    const msg1 = { sender: 'bot', text: `Anladım, cevapların için çok teşekkür ederim 😊` };
+    const msg2 = { sender: 'bot', text: "Planlamaya geçelim mi? (Evet / Başlayalım / Devam diyebilirsin)" };
+    setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
+    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
+    setInputMessage("");
+    setIntroStep(4); // onay bekleme
+    return;
+  } else {
+    botMsg = { sender: 'bot', text: "Yatırım süreni örneğin '0-6 Ay' veya '1-3 Yıl' gibi yazabilir misin?" };
+  }
+
+} else if (introStep === 4) {
+  // 4️⃣ Kullanıcı onayı (evet/hayır)
+  const lower = trimmed.toLowerCase();
+  const yesWords = ["evet","başlayalım","devam","olur","tamam","let's go","haydi","hadi"];
+  const noWords  = ["hayır","hayir","bekle","dur","sonra","şimdi değil","simdi degil"];
+
+  if (yesWords.some(k => lower.includes(k))) {
+    const proceedMsg = { sender: 'bot', text: "Harika! Yatırım planlamasına geçiyoruz." };
+    setChatHistory(prev => [...prev, userMsg, proceedMsg]);
+    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${proceedMsg.text}`]);
+    setInputMessage("");
+
+//  kaydır
+  setTimeout(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, 300);
+
+  // sonra biraz daha uzun bir bekleme 
+  setTimeout(() => {
+    setStep("plan");
+  }, 5000);
+    return;
+
+  } else if (noWords.some(k => lower.includes(k))) {
+    const stayMsg = { sender: 'bot', text: "Tamam, acele yok. Hazır olduğunda 'devam' diyebilirsin." };
+    setChatHistory(prev => [...prev, userMsg, stayMsg]);
+    setInputMessage("");
+    return;
+
+  } else {
+    const nudge = { sender: 'bot', text: "Planlamaya geçmem için 'evet', 'başlayalım' ya da 'devam' yazabilirsin. 😊" };
+    setChatHistory(prev => [...prev, userMsg, nudge]);
+    setInputMessage("");
+    return;
+  }
+}
+
+
   setChatHistory(prev => [...prev, userMsg, botMsg]);
+  setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${botMsg.text}`]);
   setInputMessage("");
 };
 
