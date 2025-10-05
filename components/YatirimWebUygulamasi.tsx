@@ -26,7 +26,7 @@ import { saveAs } from "file-saver";
 
 
 const stockList = ["STK1", "STK2", "STK3", "STK4"];
-const roboAvatar = "/roboadviser.png";
+const roboAvatar = "/roboadviser2.png";
 const grafikGorselURL = "/İlk4hisse.png";
 
 
