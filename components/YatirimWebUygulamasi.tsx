@@ -213,7 +213,7 @@ const handleIntroSubmit = () => {
   
   if (validDurations.some(k => lower.includes(k))) {
     const msg1 = { sender: 'bot', text: `Anladım, cevapların için çok teşekkür ederim 😊` };
-    const msg2 = { sender: 'bot', text: "Planlamaya geçelim mi? (Evet / Başlayalım / Devam diyebilirsin)" };
+    const msg2 = { sender: 'bot', text: "Planlamaya geçelim mi? (Evet / Olur/  Başlayalım / Devam diyebilirsin)" };
     setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
     setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
     setInputMessage("");
@@ -341,6 +341,8 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
   // TAVSİYE İSTENDİ Mİ LOG
   const tavsiyeIsteniyorMu = [
     "evet",
+    "olur",
+    "tamam",
     "merak et",
     "merak ed",
     "anlat",
@@ -377,14 +379,20 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
       botResponse = "Tabii 😊 Nasıl bir tavsiye istersin? Hisse senedi bazlı mı? Genel mi?";
      }
 
-     
+    else if (lower.includes("hisse senedi") || lower.includes("bazlı")) {
+      botResponse = "Hangi hisse özelinde tavsiye istiyorsun?";
+     }
+
     else if (lower.includes("finza") || lower.includes("sen") || lower.includes("bakabilir")) {
       botResponse = "Buyur 😊 Desteğe mi ihtiyaç duyuyorsun?";
      }
 
+    else if (lower.includes("tamam")) {
+      botResponse = "Anlaştık o halde 😉";
+     }
 
 
-    else if (lower.includes("evet") || lower.includes("merak et") || lower.includes("merak ed" ) || lower.includes("anlat" )) {
+    else if (lower.includes("evet") || lower.includes("merak et") || lower.includes("merak ed" ) || lower.includes("anlat" )|| lower.includes("olur" )) {
       botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
      const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
       botResponse = `${iterations + 1}. tur sonunda portföyünde\n` +
@@ -395,10 +403,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
 
      }
 
-     else if (lower.includes("hisse") && lower.includes("bazlı")) {
-      botResponse = "Hangi hisse özelinde tavsiye istiyorsun?";
-     }
-
+ 
      else if (lower.includes("genel")) {
             botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
      const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
@@ -414,7 +419,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
       botResponse = "Sorunu tam anlayamadım ☹ Biraz daha açıklayabilir misin? Hangi hisseye ne kadar yatırman gerektiği konusunda mı bir yardıma ihtiyacın var? Yoksa neden ve nasıl bu öngörüde bulunduğumu mu sormak istedin?";
      }
 
-    else if (lower.includes("hisse") || lower.includes("hayır")) {
+    else if (lower.includes("hayır")) {
       botResponse = "Peki, ne zaman istersen buradayım! Her zaman öneri isteyebilirsin.";
      }
 
@@ -422,16 +427,17 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
       botResponse = "Adım Finza. Tekrar memnun oldum 🙂. Yardımcı olabileceğim bir konu var mı?";
      }
 
-
-    else if (lower.includes("neden") || lower.includes("detay")|| lower.includes("neye dayanarak") || (lower.includes("nasıl") && (lower.includes("öngörüde")))) {
-      botResponse = AI_RECOMMENDATIONS[iterations] || "Üzgünüm şu an isteğini yerine getiremiyorum 🙁 Farklı bir konuda öneri ister misin?";
+    else if (lower.includes("teşekkür ed") || lower.includes("teşekkürl") || lower.includes("teşekkür et") ) {
+      botResponse = "Rica ederim 🙂. Yardımcı olabileceğim başka bir konu var mı?";
      }
+
 
      else if (lower.includes("yanlış") || lower.includes("hata")) {
       botResponse = "Özür dilerim. Tekrar olmaması için öğreniyorum 🙂";
      }
 
-else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü")) {
+else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü") ||
+      lower.includes("kaç adet") || lower.includes("kaçar") || lower.includes("ne kadar") || lower.includes("ne yapmalı") ) {
   const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
   if (currentPlan) {
     botResponse = `Tur ${iterations + 1} için \n` +
@@ -464,10 +470,6 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
       botResponse =  "Biraz daha yönlendirme yapmamı ister misin?";
     }
 
-      else if (lower.includes("kaç adet") || lower.includes("kaçar") || lower.includes("ne kadar"))    
-     {
-      botResponse = AI_RECOMMENDATIONS_FORSTK1[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
-    }
 
     //STK'lara göre
     else if (lower.includes("stk1")) {
