@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-//import { AI_RECOMMENDATIONS } from "./ai_yorumlar";
+import { AI_RECOMMENDATIONS } from "./ai_yorumlar";
 import YatirimPlanlama from "./YatirimPlanlama";
 import { AI_RECOMMENDATIONS_FORSTK1 } from "./STK1";
 import { AI_RECOMMENDATIONS_FORSTK2 } from "./STK2";
@@ -382,20 +382,33 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
       botResponse = "Buyur 😊 Desteğe mi ihtiyaç duyuyorsun?";
      }
 
-    else if (lower.includes("hisse") && lower.includes("bazlı")) {
-      botResponse = "Hangi hisse özelinde tavsiye istiyorsun?";
-     }
+
 
     else if (lower.includes("evet") || lower.includes("merak et") || lower.includes("merak ed" ) || lower.includes("anlat" )) {
       botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
      const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
-      botResponse = `İşte Tur ${iterations + 1} için sana özel önerim:\n` +
-      `STK1: ${currentPlan.STK1} adet\n` +
-      `STK2: ${currentPlan.STK2} adet\n` +
-      `STK3: ${currentPlan.STK3} adet\n` +
-      ` STK4: ${currentPlan.STK4} adet\n\n`;
+      botResponse = `${iterations + 1}. tur sonunda portföyünde\n` +
+      `STK1 hissesinden ${currentPlan.STK1} adet\n` +
+      `STK2 hissesinden ${currentPlan.STK2} adet\n` +
+      `STK3 hissesinden ${currentPlan.STK3} adet\n` +
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmanı tavsiye ediyorum 😊 `;
 
      }
+
+     else if (lower.includes("hisse") && lower.includes("bazlı")) {
+      botResponse = "Hangi hisse özelinde tavsiye istiyorsun?";
+     }
+
+     else if (lower.includes("genel")) {
+            botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
+     const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
+      botResponse = `${iterations + 1}. tur sonunda portföyünde\n` +
+      `STK1 hissesinden ${currentPlan.STK1} adet\n` +
+      `STK2 hissesinden ${currentPlan.STK2} adet\n` +
+      `STK3 hissesinden ${currentPlan.STK3} adet\n` +
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmanı tavsiye ediyorum 😊 `;
+     }
+
 
       else if (lower.includes("nasıl") ) {
       botResponse = "Sorunu tam anlayamadım ☹ Biraz daha açıklayabilir misin? Hangi hisseye ne kadar yatırman gerektiği konusunda mı bir yardıma ihtiyacın var? Yoksa neden ve nasıl bu öngörüde bulunduğumu mu sormak istedin?";
@@ -410,8 +423,8 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
      }
 
 
-    else if (lower.includes("neden") || lower.includes("neye dayanarak") || (lower.includes("nasıl") && (lower.includes("öngörüde")))) {
-      botResponse = "Bu turdaki haber başlıklarını dikkate alarak öngörüde bulunabiliyorum.";
+    else if (lower.includes("neden") || lower.includes("detay")|| lower.includes("neye dayanarak") || (lower.includes("nasıl") && (lower.includes("öngörüde")))) {
+      botResponse = AI_RECOMMENDATIONS[iterations] || "Üzgünüm şu an isteğini yerine getiremiyorum 🙁 Farklı bir konuda öneri ister misin?";
      }
 
      else if (lower.includes("yanlış") || lower.includes("hata")) {
@@ -421,11 +434,11 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
 else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü")) {
   const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
   if (currentPlan) {
-    botResponse = `Tur ${iterations + 1} için önerim:\n` +
-      `STK1: ${currentPlan.STK1} adet\n` +
-      `STK2: ${currentPlan.STK2} adet\n` +
-      `STK3: ${currentPlan.STK3} adet\n` +
-      ` STK4: ${currentPlan.STK4} adet\n\n`;
+    botResponse = `Tur ${iterations + 1} için \n` +
+      `STK1 hissesinden ${currentPlan.STK1} adet\n` +
+      `STK2 hissesinden  ${currentPlan.STK2} adet\n` +
+      `STK3 hissesinden ${currentPlan.STK3} adet\n` +
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n elinde bulundurmanı öneririm.`;
   } else {
     botResponse = "Şu an için öneri bulunmamaktadır 🙁";
   }
@@ -441,7 +454,7 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
       botResponse =  "Hangi hisse senedi hakkında bilgi almak istersin?";
     }
 
-    else if (lower.includes("karar veremedim")) {
+    else if (lower.includes("karar veremedim") || lower.includes("kararsızım") ) {
       botResponse =  "Biraz daha yönlendirme yapmamı ister misin?";
     }
 
