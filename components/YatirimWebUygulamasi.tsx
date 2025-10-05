@@ -101,7 +101,7 @@ const chatEndRef = useRef<HTMLDivElement>(null);
 
   const [chatHistory, setChatHistory] = useState<{ sender: 'user' | 'bot'; text: string }[]>([{
     sender: 'bot',
-    text: 'Merhaba, hoş geldin! Ben FinZa ✨12 tur boyunca yatırım sürecinde sana destek olmak için buradayım. Senin de ismini öğrenebilir miyim? 😊'
+    text: 'Merhaba, hoş geldin! Ben Finza ✨12 tur boyunca yatırım sürecinde sana destek olmak için buradayım. Senin de ismini öğrenebilir miyim? 😊'
   }]);
   const [inputMessage, setInputMessage] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -134,6 +134,7 @@ const { width, height } = useWindowSize();
 
 const [showChart, setShowChart] = useState(false); //grafik için eklendi
 
+const [riskProfile, setRiskProfile] = useState<number | null>(null);
 
 /*
   function getTurMesaji(tur: number): string {
@@ -149,7 +150,7 @@ const [showChart, setShowChart] = useState(false); //grafik için eklendi
 
 function getTurMesaji(tur: number): string {
   if (tur === 12) {
-    return 'Son turdayız ve hala kazancını arttırma şansın var. Tavsiyelerimi paylaşmamı ister misin?';
+    return "Son turdayız. Kalan portföyü optimize etmek için öneri ister misin?";
   }
 
   if ([3, 7, 10].includes(tur)) {
@@ -178,28 +179,33 @@ const handleIntroSubmit = () => {
   } else if (introStep === 1) {
    if (trimmed.toLowerCase().includes("nasılsın") || trimmed.toLowerCase().includes("naber") || trimmed.toLowerCase().includes("senden") || trimmed.toLowerCase().includes("sen") )
     {
-    botMsg = { sender: 'bot', text: `Teşekkürler, iyiyim. Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Hazırsan başlayalım mı??` };
+    botMsg = { sender: 'bot', text: `Teşekkürler, iyiyim. Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
     }
 
      else if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi") || trimmed.toLowerCase().includes("İyi") || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
     {
-    botMsg = { sender: 'bot', text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Hazırsan başlayalım mı?` };
+    botMsg = { sender: 'bot', text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
     }   else {
-      botMsg = { sender: 'bot', text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım` };
+      botMsg = { sender: 'bot', text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?"` };
     }  
-    
-    
-    setIntroStep(2);
-  } else if (introStep === 2) {
-    if (trimmed.toLowerCase().includes("evet") || trimmed.toLowerCase().includes("olur") || trimmed.toLowerCase().includes("başlayalım")  || trimmed.toLowerCase().includes("tamam "))  {
-      botMsg = { sender: 'bot', text: `Harika! O zaman hemen Simülasyon ekranına geçiyoruz.` };
-      setIntroStep(3);
-      setStep("plan");
-    } else {
-      botMsg = { sender: 'bot', text: `Tamam, ne zaman istersen başlayabiliriz.` };
-    }
-  }
+     setIntroStep(2);
 
+      } else if (introStep === 2) {
+    // 2) Risk profilini al ➜ plan'a geç
+    const risk = parseInt(trimmed, 10);
+    if (Number.isNaN(risk) || risk < 1 || risk > 5) {
+      botMsg = { sender: 'bot', text: "Lütfen 1 ile 5 arasında bir sayı girer misin? (1=Çok temkinli, 5=Agresif)" };
+      // introStep 2'de kal
+    } else {
+      setRiskProfile(risk);
+      botMsg = { sender: 'bot', text: `Teşekkürler! Risk profilini ${risk}/5 olarak not aldım. Şimdi yatırım planlamasına geçiyoruz.` };
+      setIntroStep(3);
+      setStep("plan"); // doğrudan planlama adımına geç
+    }
+  } else {
+    // Extra güvenlik: akış dışı olursa
+    botMsg = { sender: 'bot', text: "Planlamaya devam edelim mi?" };
+  }
 
   setChatHistory(prev => [...prev, userMsg, botMsg]);
   setInputMessage("");
@@ -239,7 +245,7 @@ const [csvRows, setCsvRows] = useState<string[]>([]);
 
   useEffect(() => {
   if (step === 'intro' && chatHistory.length === 0) {
-    setChatHistory([{ sender: 'bot', text: 'Merhaba! Ben FinZa. Önce adını öğrenebilir miyim?' }]);
+    setChatHistory([{ sender: 'bot', text: 'Merhaba! Ben Finza. Önce adını öğrenebilir miyim?' }]);
   }
 }, [step]);
 
@@ -288,7 +294,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
     "yatırım",
     "yatır",
     "hangi hisse",
-    "FinZa",
+    "Finza",
     "öner",
     "tavsiye"
   ].some(keyword => lower.includes(keyword));
@@ -300,7 +306,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
     return updated;
   });
 }
-    let botResponse = "Üzgünüm, isteğinizi anlamayamadım. Lütfen ne talep ettiğinizi detaylı belirtin.";
+    let botResponse = "Üzgünüm, isteğinizi anlayamadım. Lütfen ne talep ettiğinizi detaylı belirtin.";
 
     if (lower.includes("selam") || lower.includes("merhaba")) {
       botResponse = "Merhaba 😊 Sana nasıl yardımcı olabilirim?";
@@ -317,7 +323,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
      }
 
      
-    else if (lower.includes("FinZa") || lower.includes("sen") || lower.includes("bakabilir")) {
+    else if (lower.includes("finza") || lower.includes("sen") || lower.includes("bakabilir")) {
       botResponse = "Buyur 😊 Desteğe mi ihtiyaç duyuyorsun?";
      }
 
@@ -345,7 +351,7 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
      }
 
      else if (lower.includes("kimsin") || lower.includes("adın") || lower.includes("ismin") ) {
-      botResponse = "Adım FinZa. Tekrar memnun oldum 🙂. Yardımcı olabileceğim bir konu var mı?";
+      botResponse = "Adım Finza. Tekrar memnun oldum 🙂. Yardımcı olabileceğim bir konu var mı?";
      }
 
 
@@ -555,7 +561,7 @@ const handlePlanlamaKaydet = () => {
   //  Sayfa 1: Sohbet Geçmişi
   const chatData = chatHistory.map((entry, index) => ({
     Sıra: index + 1,
-    Gönderen: entry.sender === 'user' ? 'Kullanıcı' : 'FinZa',
+    Gönderen: entry.sender === 'user' ? 'Kullanıcı' : 'Finza',
     Mesaj: entry.text
   }));
   const chatSheet = XLSX.utils.json_to_sheet(chatData);
@@ -656,7 +662,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
       <div className="flex items-center gap-2 mb-2">
         <img src={roboAvatar} alt="roboadvisor" className="w-12 h-12 rounded-full shadow" />
 
-        <span className="font-bold">FinZa</span>
+        <span className="font-bold">Finza</span>
       </div>
 
       <div className="bg-white shadow rounded p-6 h-[28rem] overflow-auto space-y-3 text-base">
@@ -806,7 +812,7 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <img src={roboAvatar} alt="roboadvisor" className="w-12 h-12 rounded-full shadow" />
-                <span className="font-bold">FinZa</span>
+                <span className="font-bold">Finza</span>
               </div>
               <div className="bg-white shadow rounded p-6 h-[28rem] overflow-auto space-y-3 text-base">
 
