@@ -100,10 +100,14 @@ const [introStep, setIntroStep] = useState<0 | 1 | 2 | 3 >(0);
 
 const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const [chatHistory, setChatHistory] = useState<{ sender: 'user' | 'bot'; text: string }[]>([{
-    sender: 'bot',
+type ChatMessage = { sender: 'user' | 'bot'; text: string };
+
+const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
+sender: 'bot',
     text: 'Merhaba, hoş geldin! Ben Finza ✨12 tur boyunca yatırım sürecinde sana destek olmak için buradayım. Senin de ismini öğrenebilir miyim? 😊'
   }]);
+
+    
   const [inputMessage, setInputMessage] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [quantities, setQuantities] = useState<StockMap>({ STK1: 1, STK2: 1, STK3: 1, STK4: 1 });
@@ -163,15 +167,13 @@ function getTurMesaji(tur: number): string {
 }
 
 
-
-
 //Burada ilk chatbot arayüzündeki konuşmalar var
 const handleIntroSubmit = () => {
   const trimmed = inputMessage.trim();
   if (trimmed === "") return;
 
-  const userMsg = { sender: 'user', text: trimmed };
-  let botMsg;
+const userMsg: ChatMessage = { sender: 'user', text: trimmed };
+let botMsg: ChatMessage;
 
   if (introStep === 0) {
     setUserName(trimmed);
@@ -426,6 +428,10 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
 
      else if (lower.includes("kimsin") || lower.includes("adın") || lower.includes("ismin") ) {
       botResponse = "Adım Finza. Tekrar memnun oldum 🙂. Yardımcı olabileceğim bir konu var mı?";
+     }
+
+         else if (lower.includes("neden") || lower.includes("detay")|| lower.includes("neye dayanarak") || (lower.includes("nasıl") && (lower.includes("öngörüde")))) {
+      botResponse = AI_RECOMMENDATIONS[iterations] || "Üzgünüm şu an isteğini yerine getiremiyorum 🙁 Farklı bir konuda öneri ister misin?";
      }
 
     else if (lower.includes("teşekkür ed") || lower.includes("teşekkürl") || lower.includes("teşekkür et") ) {
