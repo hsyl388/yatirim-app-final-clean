@@ -20,7 +20,8 @@ import {
   ResponsiveContainer,
 } from "recharts"; //grafik için
 
-//EXCELE ÇIKTI VERSİN DİYE KÜTÜPHANE IMPORT EDİYORUZ
+
+
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
