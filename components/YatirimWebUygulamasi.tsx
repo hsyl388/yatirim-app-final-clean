@@ -96,7 +96,7 @@ export default function YatirimWebUygulamasi() {
   const [prices, setPrices] = useState<StockMap>(staticPrices[0]);
   const [iterations, setIterations] = useState(0);
 
-const [introStep, setIntroStep] = useState<0 | 1 | 2 | 3 >(0);
+const [introStep, setIntroStep] = useState<0 | 1 | 2 | 3| 4 >(0);
 
 const chatEndRef = useRef<HTMLDivElement>(null);
 
