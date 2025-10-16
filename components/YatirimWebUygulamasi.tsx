@@ -200,7 +200,7 @@ let botMsg: ChatMessage;
     botMsg = { sender: 'bot' as const, text: "Lütfen 1 ile 5 arasında bir sayı girer misin? (1=Çok temkinli, 5=Agresif)" };
   } else {
     setRiskProfile(risk);
-    const msg1 = { sender: 'bot' as const, text: `Teşekkürler! Risk profilini ${risk}/5 olarak not aldım.` };
+    const msg1 = { sender: 'bot' as const, text: `Teşekkürler! ${risk} olarak not aldım.` };
     const msg2 = { sender: 'bot' as const, text: "Peki yatırımlarını genellikle ne kadar süreyle yaparsın? Aşağıdakilerden birini yazabilirsin:\n\n• 0-6 Ay\n• 6-12 Ay\n• 1-3 Yıl\n• 3 Yıldan Uzun" };
     setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
     setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
@@ -443,6 +443,26 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
       botResponse = "Özür dilerim. Tekrar olmaması için öğreniyorum 🙂";
      }
 
+
+     
+    //STK'lara göre
+    else if (lower.includes("stk1")) {
+      botResponse = AI_RECOMMENDATIONS_FORSTK1[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+    }
+
+    else if (lower.includes("stk2")) {
+      botResponse = AI_RECOMMENDATIONS_FORSTK2[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+    }
+
+    else if (lower.includes("stk3")) {
+      botResponse = AI_RECOMMENDATIONS_FORSTK3[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁Farklı bir konuda öneri ister misin?";
+    }
+
+    else if (lower.includes("stk4")) {
+      botResponse = AI_RECOMMENDATIONS_FORSTK4[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+    }
+
+
 else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü") ||
       lower.includes("kaç adet") || lower.includes("kaçar") || lower.includes("ne kadar") || lower.includes("ne yapmalı") ) {
   const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
@@ -475,24 +495,6 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
 
       else if (lower.includes("TL")) {
       botResponse =  "Biraz daha yönlendirme yapmamı ister misin?";
-    }
-
-
-    //STK'lara göre
-    else if (lower.includes("stk1")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK1[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
-    }
-
-    else if (lower.includes("stk2")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK2[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
-    }
-
-    else if (lower.includes("stk3")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK3[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁Farklı bir konuda öneri ister misin?";
-    }
-
-    else if (lower.includes("stk4")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK4[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
     }
 
 
