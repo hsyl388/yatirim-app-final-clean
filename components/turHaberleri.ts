@@ -3,16 +3,16 @@
 export const turHaberleri = [
   {
     tur: 1,
-    haber: `ACN yeni projelerini duyuruldu. Projeler uluslararası basında büyük ilgi gördü.
+    haber: `ACN (STK1) yeni projelerini duyuruldu. Projeler uluslararası basında büyük ilgi gördü.
 TCMB tarafından, faiz oranları arttırma kararı açıklandı.
 Çelik için iç talep artışı bekleniyor.
 Enflasyonun yıl sonuna kadar artışını sürdüreceği öngörülüyor.`
   },
   {
     tur: 2,
-    haber: `ICB bankasinın türev ürünlerinden kaynaklı zarara uğradığı ortaya çıktı.
+    haber: `ICB bankasının (STK2) türev ürünlerinden kaynaklı zarara uğradığı ortaya çıktı.
  Çelik ihracatında talep beklenen seviyeye ulaşamadı.
-KTM bu ay yurtdışında 10 yeni mağaza açılışı gerçekleştirdi.`
+KTM (STK4) bu ay yurtdışında 10 yeni mağaza açılışı gerçekleştirdi.`
   },
   {
     tur: 3,
@@ -23,7 +23,7 @@ Enerjideki fiyat artışı sanayi ve perakende sektöründe operasyonel maliyet 
     tur: 4,
     haber: `Savunma sanayi üzerinde sektörel büyüme beklentileri devam ediyor. 
 Kur stabilizasyonun bir süre daha devam etmesi bekleniyor.
-CLK firması 500 milyon dolarlık uzun vadeli ihracat sözleşmesi kazandı.
+CLK (STK3) firması 500 milyon dolarlık uzun vadeli ihracat sözleşmesi kazandı.
 Perakende sektörüne Rekabet Kurumu tarafından soruşturma başlatıldı`
   },
   {
@@ -41,13 +41,13 @@ Yılbaşı sebebiyle marketlere yoğun ilgi devam ediyor.`
   },
   {
     tur: 7,
-    haber: `ACN firması şirket yıl sonu bilanço beklentilerini açıkladı. Bilanço piyasa beklentisinin altında. 
+    haber: `ACN firması (STK1) şirket yıl sonu bilanço beklentilerini açıkladı. Bilanço piyasa beklentisinin altında. 
 Merkez bankası politika faizini 47%'ye yükseltti. 
 Zincir marketlerde yılbaşı yoğunluğu devam ediyor.`
   },
   {
     tur: 8,
-    haber: `ACN firmasının yeni yapay zeka projesi heyecanlandırdı!
+    haber: `ACN firmasının (STK1) yeni yapay zeka projesi heyecan uyandırdı!
 Swap işlemlerine kısıtlama getirildi.
  Çelikte talep daralması, ihracat fazlasını tırmandırdı.`
   },
@@ -60,9 +60,9 @@ Sanayiye devletten tam destek:  Teşvik Paketi Genişletildi!`
   {
     tur: 10,
     haber: `Devletten savunma sanayisine yeni nesil teşvik paketi gündemde.
- Analistler ICB bankasının özkaynak kârlılığı hedefinin mevcut piyasa koşullarında zor ulaşılabilir olduğunu belirtti. 
+ Analistler ICB bankasının (STK2) özkaynak kârlılığı hedefinin mevcut piyasa koşullarında zor ulaşılabilir olduğunu belirtti. 
 Çeliğe hammadde talebinde küresel çapta düşüş! 
-KTM  210 adet yeni mağaza açılışı gerçekleştirilerek toplam mağaza sayısı 12568'e yükseldi.
+KTM (STK4), 210 adet yeni mağaza açılışı gerçekleştirilerek toplam mağaza sayısı 12568'e yükseldi.
 `
   },
   {
@@ -75,7 +75,7 @@ Artan maliyetler perakende sektöründe kârları eritiyor!
   {
     tur: 12,
     haber: `TCMB'den yeni faiz kararı: Faiz artışına devam! 
-KTM yılın ilk çeyreğinde toplam varlıklarını %11 arttırdığını ve net borç seviyesini %40 azaltarak 18,6 milyar TL'ye düşürdüğünü açıkladı.`
+KTM (STK4) yılın ilk çeyreğinde toplam varlıklarını %11 arttırdığını ve net borç seviyesini %40 azaltarak 18,6 milyar TL'ye düşürdüğünü açıkladı.`
   },
 ];
 
