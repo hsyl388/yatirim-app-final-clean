@@ -153,6 +153,8 @@ const [riskProfile, setRiskProfile] = useState<number | null>(null);
 
 */
 
+
+
 function getTurMesaji(tur: number): string {
   if (tur === 12) {
     return "Son turdayız. Kalan portföyü optimize etmek için öneri ister misin?";
@@ -992,14 +994,15 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
         <YAxis label={{ value: 'Fiyat (₺)', angle: -90, position: 'insideLeft' }} />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="STK1" stroke="#8884d8" />
-        <Line type="monotone" dataKey="STK2" stroke="#82ca9d" />
-        <Line type="monotone" dataKey="STK3" stroke="#ffc658" />
-        <Line type="monotone" dataKey="STK4" stroke="#ff7300" />
+        <Line type="linear" dataKey="STK1" stroke="#8884d8" />
+        <Line type="linear" dataKey="STK2" stroke="#13a972ff" />
+        <Line type="linear" dataKey="STK3" stroke="#301934" />
+        <Line type="linear" dataKey="STK4" stroke="#8B0000" />
       </LineChart>
     </ResponsiveContainer>
   </div>
 )}
+
 
 
 </div>
