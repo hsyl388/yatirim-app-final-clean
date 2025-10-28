@@ -98,14 +98,24 @@ const [showChart, setShowChart] = useState(false); //grafik için eklendi
     setInputErrors(prev => ({ ...prev, [symbol]: undefined }));
   };
 
+/*Alt satıra inme*/
+  const withBreaks = (s: string) =>
+  s.replace(/\r?\n/g, "<br/>").replace(/\s*<br\/>\s*/g, "<br/>");
+
+
   return (
     <div className="p-4 space-y-6">
       <div className="bg-white shadow rounded p-4">
         <h2 className="text-xl font-bold mb-4 text-gray-800">{iterations + 1}. Tur İçin Öne Çıkan Başlıklar</h2>
-        {currentNews.map((haber, index) => (
-          <div key={index} className="text-base mb-2 leading-snug">
-            {haber.haber}
-          </div>
+
+        
+  {currentNews.map((haber, index) => (
+    <div
+      key={index}
+      className="text-base mb-2 leading-snug"
+      dangerouslySetInnerHTML={{ __html: withBreaks(haber.haber) }}
+    />
+          
         ))}
 
  <button

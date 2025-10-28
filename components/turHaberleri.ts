@@ -3,10 +3,10 @@
 export const turHaberleri = [
   {
     tur: 1,
-    haber: `ACN (STK1) yeni projelerini duyurdu. Projeler uluslararası basında büyük ilgi gördü. 
+    haber: `ACN (STK1) yeni projelerini duyurdu. Projeler uluslararası basında büyük ilgi gördü.
 TCMB tarafından, faiz oranları arttırma kararı açıklandı.
 Çelik için iç talep artışı bekleniyor.
-Enflasyonun yıl sonuna kadar artışını sürdüreceği öngörülüyor.` 
+Enflasyonun yıl sonuna kadar artışını sürdüreceği öngörülüyor.`
   },
   {
     tur: 2,
@@ -21,28 +21,28 @@ Enerjideki fiyat artışı sanayi ve perakende sektöründe operasyonel maliyet 
   },
   {
     tur: 4,
-    haber: `Savunma sanayi üzerinde sektörel büyüme beklentileri devam ediyor. 
+    haber: `Savunma sanayi üzerinde sektörel büyüme beklentileri devam ediyor.
 Kur stabilizasyonun bir süre daha devam etmesi bekleniyor.
 CLK (STK3) firması 500 milyon dolarlık uzun vadeli ihracat sözleşmesi kazandı.
 Perakende sektörüne Rekabet Kurumu tarafından soruşturma başlatıldı`
   },
   {
     tur: 5,
-    haber: `Uluslararası alanda savunma fuarına katılımları basında yer aldı. 
-Kredi kısıtlamaları gündemde. 
+    haber: `Uluslararası alanda savunma fuarına katılımları basında yer aldı.
+Kredi kısıtlamaları gündemde.
 Çelikte global emtia düşüşte.`
   },
   {
     tur: 6,
-    haber: `BİST Haftaya Düşüşle Başladı: Satış Baskısı Geniş Kapsamlı 
-BİST Değer Kaybederken Banka Hisseleri Yükseldi: Yatırımcılar Defansif Pozisyonlara Geçti
+    haber: `BİST Haftaya Düşüşle Başladı: Satış Baskısı Geniş Kapsamlı
+    BİST Değer Kaybederken Banka Hisseleri Yükseldi: Yatırımcılar Defansif Pozisyonlara Geçti
 İhracat verileri açıklandı. Çelik ihracatı önemli bir yükseliş kaydetti. ihracat değer bazında %12,5 artışla 798 milyon dolara yükseldi.
 Yılbaşı sebebiyle marketlere yoğun ilgi devam ediyor.`
   },
   {
     tur: 7,
-    haber: `ACN firması (STK1) şirket yıl sonu bilanço beklentilerini açıkladı. Bilanço piyasa beklentisinin altında. 
-Merkez bankası politika faizini 47%'ye yükseltti. 
+    haber: `ACN firması (STK1) şirket yıl sonu bilanço beklentilerini açıkladı. Bilanço piyasa beklentisinin altında.
+Merkez bankası politika faizini 47%'ye yükseltti.
 Zincir marketlerde yılbaşı yoğunluğu devam ediyor.`
   },
   {
@@ -53,28 +53,29 @@ Swap işlemlerine kısıtlama getirildi.
   },
   {
     tur: 9,
-    haber: `Kur dalgalanmaları sanayiciye avantaj yaratıyor. 
-Kredi hacmi genişlemeye devam ediyor. 
+    haber: `Kur dalgalanmaları sanayiciye avantaj yaratıyor.
+Kredi hacmi genişlemeye devam ediyor.
 Sanayiye devletten tam destek:  Teşvik Paketi Genişletildi!`
   },
   {
     tur: 10,
     haber: `Devletten savunma sanayisine yeni nesil teşvik paketi gündemde.
- Analistler ICB bankasının (STK2) özkaynak kârlılığı hedefinin mevcut piyasa koşullarında zor ulaşılabilir olduğunu belirtti. 
-Çeliğe hammadde talebinde küresel çapta düşüş! 
+ Analistler ICB bankasının (STK2) özkaynak kârlılığı hedefinin mevcut piyasa koşullarında zor ulaşılabilir olduğunu belirtti.
+Çeliğe hammadde talebinde küresel çapta düşüş!
 KTM (STK4), 210 adet yeni mağaza açılışı gerçekleştirilerek toplam mağaza sayısı 12568'e yükseldi.
 `
   },
   {
     tur: 11,
-    haber: `Orta Doğu’da artan siyasi tansiyon, yatırımcıları güvenli limanlara yöneltti. Belirsizlik ortamı, borsalarda geniş çaplı satış dalgasını tetikledi. Enerji fiyatlarındaki dalgalanmalar ve savaş riski, tüm hisselerde volatiliteyi artırıyor.
+    haber: `Orta Doğu’da artan siyasi tansiyon, yatırımcıları güvenli limanlara yöneltti. Belirsizlik ortamı, borsalarda geniş çaplı satış dalgasını tetikledi.
+Enerji fiyatlarındaki dalgalanmalar ve savaş riski, tüm hisselerde volatiliteyi artırıyor.
 Artan maliyetler perakende sektöründe kârları eritiyor!
 
 `
   },
   {
     tur: 12,
-    haber: `TCMB'den yeni faiz kararı: Faiz artışına devam! 
+    haber: `TCMB'den yeni faiz kararı: Faiz artışına devam!
 KTM (STK4) yılın ilk çeyreğinde toplam varlıklarını %11 arttırdığını ve net borç seviyesini %40 azaltarak 18,6 milyar TL'ye düşürdüğünü açıkladı.`
   },
 ];
