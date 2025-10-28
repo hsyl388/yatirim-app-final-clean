@@ -10,7 +10,7 @@ export const AI_RECOMMENDATIONS_FORSTK4: Record<number, string> = {
   6:  "Yılbaşına rağmen faiz etkisiyle perakende sektöründe baskı artıyor. Bu hisseyi uzun vadeli portföye eklemek riskli olabilir.",
   7:  "Pozitif bir görünüm var ancak daha büyük potansiyele sahip hisselere yönelmeni tavsiye ederim.",
   8:  "Yatay seyir öngörülüyor. Portföyünde diğer hisselere ağırlık vermelisin.",
-  9:  "Mağaza açılışları büyüme potansiyelini artırıyor. Kısa vadeli portföyde daha fazla yer verilebilir.",
-  10: "Artan maliyetler kâr marjını daraltsa da hisse dirençli durabilir. Kısmi satış yapabilirsin.",
+  9:  "Mağaza açılışları büyüme potansiyelini artırıyor. Kısa vadeli portföyde yer verilebilir.",
+  10: "Artan maliyetler kâr marjını daraltsa da hisse dirençli durabilir. Kısmi işlemmlerde değerlendirebilirsin.",
   11: "İlk çeyrek açıklamasına rağmen mevcut durumda bu hisseden kayda değer bir artış beklemiyorum.",
 };

@@ -3,10 +3,10 @@
 export const turHaberleri = [
   {
     tur: 1,
-    haber: `ACN (STK1) yeni projelerini duyuruldu. Projeler uluslararası basında büyük ilgi gördü.
+    haber: `ACN (STK1) yeni projelerini duyurdu. Projeler uluslararası basında büyük ilgi gördü. 
 TCMB tarafından, faiz oranları arttırma kararı açıklandı.
 Çelik için iç talep artışı bekleniyor.
-Enflasyonun yıl sonuna kadar artışını sürdüreceği öngörülüyor.`
+Enflasyonun yıl sonuna kadar artışını sürdüreceği öngörülüyor.` 
   },
   {
     tur: 2,

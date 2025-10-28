@@ -3,7 +3,7 @@
 export const AI_RECOMMENDATIONS_FORSTK3: Record<number, string> = {
 
   0:  "İç talepteki artış, satış hacmini artırıyor. Sanayi hissesi olarak güçlü pozisyonda.",
-  1:  "Çin kaynaklı talep düşüşü ihracatı etkileyebilir. Hisse bu durumda baskı altında kalabilir. Portföyünde bu hisseyi azaltabilirsin.",
+  1:  "Çin kaynaklı talep düşüşü ihracatı etkileyebilir. Hisse bu durumda baskı altında kalabilir. Portföyünde bu hisseye çok yer vermemelisin.",
   2:  "Enerji maliyetleri kârı azaltır, ancak uzun vadede şirketin üretim gücü korunur. Kayıplar sınırlı olur. 😉",
   3:  "CLK firmasının son ihaleyi kazanmasıyla STK3 hisselerinde hızlı bir değer artışı beklenebilir.",
   4:  "Global emtia fiyatlarındaki düşüş, satış gelirlerini azaltabilir. Kısa vadede uzak durulmalı.",
