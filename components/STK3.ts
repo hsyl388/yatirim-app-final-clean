@@ -1,17 +1,14 @@
-
-
 export const AI_RECOMMENDATIONS_FORSTK3: Record<number, string> = {
-
-  0:  "İç talepteki artış, satış hacmini artırıyor. Sanayi hissesi olarak güçlü pozisyonda.",
-  1:  "Çin kaynaklı talep düşüşü ihracatı etkileyebilir. Hisse bu durumda baskı altında kalabilir. Portföyünde bu hisseye çok yer vermemelisin.",
-  2:  "Enerji maliyetleri kârı azaltır, ancak uzun vadede şirketin üretim gücü korunur. Kayıplar sınırlı olur. 😉",
-  3:  "CLK firmasının son ihaleyi kazanmasıyla STK3 hisselerinde hızlı bir değer artışı beklenebilir.",
-  4:  "Global emtia fiyatlarındaki düşüş, satış gelirlerini azaltabilir. Kısa vadede uzak durulmalı.",
-  5:  "Artan ihracat performansı, olumlu bir sinyal. Orta vadeli değerlendirme yapılabilir.",
-  6:  "Faiz artışlarının kredi maliyetini yükseltmesi, üretim ve satışta baskı yaratabilir. Temkinli olunmalı.",
-  7:  "Düşen satışların etkisi kısa sürecek gibi. Uygun maliyetle alım için fırsat olabilir. 😊 Yine de riskler unutulmamalı.",
-  8:  "Devlet teşvikleri yatırımcıları cezbediyor. Kısa vadeli alım-satım işlemleri için uygun bir hisse!",
-  9:  "Küresel çaptaki gelişmelerin olumsuz etkisi STK3 üzerinde sert bir şekilde hissedilecektir. Hızlı bir değer kaybı bekleyebiliriz.",
-  10: "Karlılık beklenenden yüksek çıktı. Jeopolitik belirsizlik göz ardı edilmemeli. Hafif risk alınabilir, ama trend takip edilmeli. 😉",
-  11: "Son dönemdeki dalgalanmalardan dolayı kısa vadede zarara uğratma ihtimalini yüksek buluyorum.",
+  0: "İç talepteki artış, satış hacmini olumlu etkiliyor. Pozitif görünüm korunuyor.",
+  1: "Talep düşüşü baskı yaratabilir. Portföy ağırlığı azaltılabilir.",
+  2: "Enerji maliyetleri marjları daraltabilir. Kayıplar sınırlı olabilir.",
+  3: "İhale kazanımı değer artışı potansiyeli taşımaktadır. Yakın takip önerilir.",
+  4: "Küresel emtia düşüşü satışları baskılayabilir. Portföyden çıkarılabilir.",
+  5: "İhracat artışı olumlu sinyal vermektedir. Orta vadeli pozisyon alınabilir.",
+  6: "Üretim maliyetleri yükselebilir. Risk sınırlaması gereklidir.",
+  7: "Satış baskısı azalmaktadır. Fiyat avantajı değerlendirilebilir.",
+  8: "Teşvik etkisi kısa vadeli işlem potansiyeli sunabilir.",
+  9: "Küresel gelişmeler hisse üzerinde baskı yaratabilir. Satış önerilir.",
+  10: "Kârlılık güçlü ancak risk faktörü sürmektedir. Hafif pozisyon alınabilir.",
+  11: "Dalgalanma riski yüksek. Zarara uğrama olasılığı mevcuttur.",
 };

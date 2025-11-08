@@ -28,7 +28,7 @@ Perakende sektörüne Rekabet Kurumu tarafından soruşturma başlatıldı`
   },
   {
     tur: 5,
-    haber: `Uluslararası alanda savunma fuarına katılımları basında yer aldı.
+    haber: `ACN'nin (STK1) uluslararası savunma fuarına katılımı dünya basınında yer aldı.
 Kredi kısıtlamaları gündemde.
 Çelikte global emtia düşüşte.`
   },

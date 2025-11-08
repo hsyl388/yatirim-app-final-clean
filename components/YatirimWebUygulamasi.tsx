@@ -27,7 +27,7 @@ import { saveAs } from "file-saver";
 
 
 const stockList = ["STK1", "STK2", "STK3", "STK4"];
-const roboAvatar = "/roboadviser2.png";
+//const roboAvatar = "/roboadviser2.png";
 const grafikGorselURL = "/İlk4hisse.png";
 
 
@@ -96,7 +96,7 @@ export default function YatirimWebUygulamasi() {
   const [prices, setPrices] = useState<StockMap>(staticPrices[0]);
   const [iterations, setIterations] = useState(0);
 
-const [introStep, setIntroStep] = useState<0 | 1 | 2 | 3| 4 >(0);
+const [introStep, setIntroStep] = useState<0 | 1 | 2 | 3 >(0);
 
 const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -104,7 +104,7 @@ type ChatMessage = { sender: 'user' | 'bot'; text: string };
 
 const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
 sender: 'bot' as const,
-    text: 'Merhaba, hoş geldin! Ben Finza ✨12 tur boyunca yatırım sürecinde sana destek olmak için buradayım. Senin de ismini öğrenebilir miyim? 😊'
+    text: 'İsminizi giriniz.'
   }]);
 
     
@@ -157,122 +157,115 @@ const [riskProfile, setRiskProfile] = useState<number | null>(null);
 
 function getTurMesaji(tur: number): string {
   if (tur === 12) {
-    return "Son turdayız. Kalan portföyü optimize etmek için öneri ister misin?";
+    return "Yatırım önerisi ister misiniz?";
   }
 
   if ([3, 7, 10].includes(tur)) {
-    return `${tur}. turdayız ve fırsatlar kapıda. Hangi hisse senedi öne çıkıyor, birlikte inceleyebiliriz. Yatırım önerisi ister misin?`;
+    return `${tur}. turdasınız. Yatırım önerisi ister misiniz?`;
   }
 
   // Varsayılan: 1. tur dahil diğer tüm turlar
-  return `Merhaba! Şu an ${tur}. turdayız. Piyasaya göre sana önerilerimi duymak ister misin?`;
+  return `Şu an ${tur}. turdayız. Yatırım önerisi ister misiniz?`;
 }
 
-
-//Burada ilk chatbot arayüzündeki konuşmalar var
+// Burada ilk chatbot arayüzündeki konuşmalar var
 const handleIntroSubmit = () => {
   const trimmed = inputMessage.trim();
   if (trimmed === "") return;
 
-const userMsg: ChatMessage = { sender: 'user' as const, text: trimmed };
-let botMsg: ChatMessage;
+  const userMsg: ChatMessage = { sender: "user", text: trimmed };
+  let botMsg: ChatMessage;
 
+  // 0) İsim al ➜ risk sor
   if (introStep === 0) {
     setUserName(trimmed);
-    botMsg = { sender: 'bot' as const, text: `Memnun oldum ${trimmed}! Nasılsın bugün?` };
+    const msg2: ChatMessage = { sender: "bot", text: "Yatırım yaklaşımınızı 1–5 arasında puanlayınız. 1=Çok temkinli, 5=Agresif." };
+    setChatHistory(prev => [...prev, userMsg, msg2]);
+    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg2.text}`]);
+    setInputMessage("");
     setIntroStep(1);
-  } else if (introStep === 1) {
-   if (trimmed.toLowerCase().includes("nasılsın") || trimmed.toLowerCase().includes("naber") || trimmed.toLowerCase().includes("senden") || trimmed.toLowerCase().includes("sen") )
-    {
-    botMsg = { sender: 'bot' as const, text: `Teşekkürler, iyiyim. Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
+    return;
+  }
+
+  // 1) Risk al ➜ süre sor
+  if (introStep === 1) {
+    const risk = parseInt(trimmed, 10);
+    if (Number.isNaN(risk) || risk < 1 || risk > 5) {
+      botMsg = { sender: "bot", text: "1–5 arasında bir sayı giriniz. (1=Çok temkinli, 5=Agresif)" };
+      setChatHistory(prev => [...prev, userMsg, botMsg]);
+      setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${botMsg.text}`]);
+      setInputMessage("");
+      return;
+    }
+    setRiskProfile(risk);
+    const msg2: ChatMessage = {
+      sender: "bot",
+      text:
+        "Yatırımlarınızı genellikle ne kadar süreyle yaparsınız? Aşağıdakilerden birini yazınız:\n\n• 0-6 Ay\n• 6-12 Ay\n• 1-3 Yıl\n• 3 Yıldan Uzun",
+    };
+    setChatHistory(prev => [...prev, userMsg, msg2]);
+    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg2.text}`]);
+    setInputMessage("");
+    setIntroStep(2);
+    return;
+  }
+
+  // 2) Süre al ➜ onay iste
+  if (introStep === 2) {
+    const lower = trimmed.toLowerCase();
+    const validDurations = ["0-6", "6-12", "1-3", "3", "uzun", "yıl", "ay"];
+    if (validDurations.some(k => lower.includes(k))) {
+      const msg1: ChatMessage = { sender: "bot", text: "Cevaplarınız kaydedildi." };
+      const msg2: ChatMessage = { sender: "bot", text: "Planlama adımına başlamak için 'Devam etmek istiyorum' yazınız." };
+      setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
+      setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
+      setInputMessage("");
+      setIntroStep(3);
+      return;
+    } else {
+      botMsg = { sender: "bot", text: "Yatırım sürenizi örneğin '0-6 Ay' veya '1-3 Yıl' gibi yazabilir misiniz?" };
+      setChatHistory(prev => [...prev, userMsg, botMsg]);
+      setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${botMsg.text}`]);
+      setInputMessage("");
+      return;
+    }
+  }
+
+  // 3) Onay ➜ plan aşamasına geç
+  if (introStep === 3) {
+    const lower = trimmed.toLowerCase();
+    const yesWords = ["evet", "başlayalım", "devam", "olur", "tamam", "let's go", "haydi", "hadi"];
+    const noWords = ["hayır", "hayir", "bekle", "dur", "sonra", "şimdi değil", "simdi degil"];
+
+    if (yesWords.some(k => lower.includes(k))) {
+      const proceedMsg: ChatMessage = { sender: "bot", text: "Yatırım planlama adımına yönlendiriliyorsunuz." };
+      setChatHistory(prev => [...prev, userMsg, proceedMsg]);
+      setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${proceedMsg.text}`]);
+      setInputMessage("");
+
+      setTimeout(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+
+      setTimeout(() => {
+        setStep("plan");
+      }, 500); // istersen 5000 yerine daha kısa bekleme
+      return;
     }
 
-     else if (trimmed.toLowerCase().includes("iyiyim") || trimmed.toLowerCase().includes("iyi") || trimmed.toLowerCase().includes("İyi") || trimmed.toLowerCase().includes("güzel")  || trimmed.toLowerCase().includes("fena değil") )
-    {
-    botMsg = { sender: 'bot' as const, text: `Bunu duyduğuma sevindim! Uygulama sürecinde her tur yatırım planlaman ve hisse alım/ satım işlemleri gerçekleştirmen gerekiyor. Yatırım esnasında ihtiyaç duyduğunda her zaman sana yatırım önerisi sunabilirim. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
-    }   else {
-      botMsg = { sender: 'bot' as const, text: `Bunu duyduğuma üzüldüm ☹ Biraz özgüven tazelemeye ne dersin? Haydi, yatırım uygulamasına başlayalım ve biraz para kazanalım. Ama öncesinde seni biraz daha tanımalıyım. Yatırım yaklaşımını 1–5 arasında nasıl puanlarsın? 1=Çok temkinli, 5=Agresif. Lütfen 1-5 arası bir sayı yazabilir misin?` };
-    }  
-     setIntroStep(2);
+    if (noWords.some(k => lower.includes(k))) {
+      const stayMsg: ChatMessage = { sender: "bot", text: "Yatırım planlamaya başlamak için 'Devam etmek istiyorum' yazınız." };
+      setChatHistory(prev => [...prev, userMsg, stayMsg]);
+      setInputMessage("");
+      return;
+    }
 
-} else if (introStep === 2) {
-  // 2️⃣ Risk profilini al ➜ ardından yatırım süresi sor
-  const risk = parseInt(trimmed, 10);
-  if (Number.isNaN(risk) || risk < 1 || risk > 5) {
-    botMsg = { sender: 'bot' as const, text: "Lütfen 1 ile 5 arasında bir sayı girer misin? (1=Çok temkinli, 5=Agresif)" };
-  } else {
-    setRiskProfile(risk);
-    const msg1 = { sender: 'bot' as const, text: `Teşekkürler! ${risk} olarak not aldım.` };
-    const msg2 = { sender: 'bot' as const, text: "Peki yatırımlarını genellikle ne kadar süreyle yaparsın? Aşağıdakilerden birini yazabilirsin:\n\n• 0-6 Ay\n• 6-12 Ay\n• 1-3 Yıl\n• 3 Yıldan Uzun" };
-    setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
-    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
-    setInputMessage("");
-    setIntroStep(3); // yatırım süresi bekleme
-    return;
-  }
-
-} else if (introStep === 3) {
-  // 3️⃣ Yatırım süresi yanıtı ➜ onay iste
-  const lower = trimmed.toLowerCase();
-  const validDurations = ["0-6", "6-12", "1-3", "3", "uzun", "yıl", "ay"];
-  
-  if (validDurations.some(k => lower.includes(k))) {
-    const msg1 = { sender: 'bot' as const, text: `Anladım, cevapların için çok teşekkür ederim 😊` };
-    const msg2 = { sender: 'bot' as const, text: "Planlamaya geçelim mi? (Evet / Olur/  Başlayalım / Devam diyebilirsin)" };
-    setChatHistory(prev => [...prev, userMsg, msg1, msg2]);
-    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${msg1.text}`, `ROBO: ${msg2.text}`]);
-    setInputMessage("");
-    setIntroStep(4); // onay bekleme
-    return;
-  } else {
-    botMsg = { sender: 'bot' as const, text: "Yatırım süreni örneğin '0-6 Ay' veya '1-3 Yıl' gibi yazabilir misin?" };
-  }
-
-} else if (introStep === 4) {
-  // 4️⃣ Kullanıcı onayı (evet/hayır)
-  const lower = trimmed.toLowerCase();
-  const yesWords = ["evet","başlayalım","devam","olur","tamam","let's go","haydi","hadi"];
-  const noWords  = ["hayır","hayir","bekle","dur","sonra","şimdi değil","simdi degil"];
-
-  if (yesWords.some(k => lower.includes(k))) {
-    const proceedMsg = { sender: 'bot' as const, text: "Harika! Yatırım planlamasına geçiyoruz." };
-    setChatHistory(prev => [...prev, userMsg, proceedMsg]);
-    setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${proceedMsg.text}`]);
-    setInputMessage("");
-
-//  kaydır
-  setTimeout(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, 300);
-
-  // sonra biraz daha uzun bir bekleme 
-  setTimeout(() => {
-    setStep("plan");
-  }, 5000);
-    return;
-
-  } else if (noWords.some(k => lower.includes(k))) {
-    const stayMsg = { sender: 'bot' as const, text: "Tamam, acele yok. Hazır olduğunda 'devam' diyebilirsin." };
-    setChatHistory(prev => [...prev, userMsg, stayMsg]);
-    setInputMessage("");
-    return;
-
-  } else {
-    const nudge = { sender: 'bot' as const, text: "Planlamaya geçmem için 'evet', 'başlayalım' ya da 'devam' yazabilirsin. 😊" };
+    const nudge: ChatMessage = { sender: "bot", text: "Planlama adımında başlanılması için 'Devam etmek istiyorum' yazabilirsiniz. 😊" };
     setChatHistory(prev => [...prev, userMsg, nudge]);
     setInputMessage("");
     return;
   }
-}
-
-
-  setChatHistory(prev => [...prev, userMsg, botMsg]);
-  setLog(prev => [...prev, `KULLANICI: ${trimmed}`, `ROBO: ${botMsg.text}`]);
-  setInputMessage("");
 };
-
-
-
 
 //EXCELE ÇIKTI VER
 const [csvRows, setCsvRows] = useState<string[]>([]);
@@ -305,7 +298,7 @@ const [csvRows, setCsvRows] = useState<string[]>([]);
 
   useEffect(() => {
   if (step === 'intro' && chatHistory.length === 0) {
-    setChatHistory([{ sender: 'bot' as const, text: 'Merhaba! Ben Finza. Önce adını öğrenebilir miyim?' }]);
+    setChatHistory([{ sender: 'bot' as const, text: 'İsminizi giriniz' }]);
   }
 }, [step]);
 
@@ -330,9 +323,9 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
     
     if (!userName) {
       setUserName(inputMessage.trim());
-      setChatHistory(prev => [...prev, { sender: 'user', text: inputMessage }, { sender: 'bot' as const, text: `Tanıştığıma çok memnun oldum ${inputMessage}🙂! Bugün ne yapmak istersin? Mesela biraz hisse almaya ne dersin?` }]);
+      setChatHistory(prev => [...prev, { sender: 'user', text: inputMessage }, { sender: 'bot' as const, text: `İsminiz kaydedildi. ` }]);
 
-      setLog(prev => [...prev, `KULLANICI: ${inputMessage}`, `ROBO: Memnun oldum ${inputMessage} 🙂! Bugün ne yapmak istersin?`]);
+      setLog(prev => [...prev, `KULLANICI: ${inputMessage}`, `ROBO: İsminiz ${inputMessage} olarak kaydedildi!`]);
       setInputMessage("");
       return;
     }
@@ -368,104 +361,70 @@ const samplePriceHistory = staticPrices.slice(0, iterations + 1).map((prices, in
     return updated;
   });
 }
-    let botResponse = "Üzgünüm, isteğinizi anlayamadım. Lütfen ne talep ettiğinizi detaylı belirtin.";
-
-    if (lower.includes("selam") || lower.includes("merhaba")) {
-      botResponse = "Merhaba 😊 Sana nasıl yardımcı olabilirim?";
-    }
+    let botResponse = "Talebinizi detaylı belirtiniz.";
 
 
-    else if (lower.includes("adım") || lower.includes("ismim")) {
-      botResponse = "Memnun oldum 😊 Sana nasıl yardımcı olabilirim?";
-    }
-
-
-     else if (lower.includes("yatırım") || lower.includes("tavsiye")) {
-      botResponse = "Tabii 😊 Nasıl bir tavsiye istersin? Hisse senedi bazlı mı? Genel mi?";
+      if (lower.includes("yatırım") || lower.includes("tavsiye")) {
+      botResponse = "Hisse senedi bazlı mı yoksa genel bir tavsiye mi talep etmektesiniz?";
      }
 
     else if (lower.includes("hisse senedi") || lower.includes("bazlı")) {
-      botResponse = "Hangi hisse özelinde tavsiye istiyorsun?";
+      botResponse = "Hangi hisse özelinde tavsiye talep ettiğinizi belirtiniz";
      }
-
-    else if (lower.includes("finza") || lower.includes("sen") || lower.includes("bakabilir")) {
-      botResponse = "Buyur 😊 Desteğe mi ihtiyaç duyuyorsun?";
-     }
-
-    else if (lower.includes("tamam")) {
-      botResponse = "Anlaştık o halde 😉";
-     }
-
 
     else if (lower.includes("evet") || lower.includes("merak et") || lower.includes("merak ed" ) || lower.includes("anlat" )|| lower.includes("olur" )) {
-      botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
+      botResponse = "Hangi hisse özelinde tavsiye istiyorsunuz? ";
      const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
-      botResponse = `${iterations + 1}. tur sonunda portföyünde\n` +
+      botResponse = `${iterations + 1}. tur sonunda portföyünüzde\n` +
       `STK1 hissesinden ${currentPlan.STK1} adet\n` +
       `STK2 hissesinden ${currentPlan.STK2} adet\n` +
       `STK3 hissesinden ${currentPlan.STK3} adet\n` +
-      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmanı tavsiye ediyorum 😊 `;
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmalısınız. `;
 
      }
 
  
      else if (lower.includes("genel")) {
-            botResponse = "Hangi hisse özelinde tavsiye istiyorsun? Genel bir öneri mi istiyorsun?";
+            botResponse = "Hangi hisse özelinde tavsiye istiyorsunuz?";
      const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
-      botResponse = `${iterations + 1}. tur sonunda portföyünde\n` +
+      botResponse = `${iterations + 1}. tur sonunda portföyünüzde\n` +
       `STK1 hissesinden ${currentPlan.STK1} adet\n` +
       `STK2 hissesinden ${currentPlan.STK2} adet\n` +
       `STK3 hissesinden ${currentPlan.STK3} adet\n` +
-      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmanı tavsiye ediyorum 😊 `;
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmalısınız. `;
      }
 
 
-      else if (lower.includes("nasıl") ) {
-      botResponse = "Sorunu tam anlayamadım ☹ Biraz daha açıklayabilir misin? Hangi hisseye ne kadar yatırman gerektiği konusunda mı bir yardıma ihtiyacın var? Yoksa neden ve nasıl bu öngörüde bulunduğumu mu sormak istedin?";
-     }
 
     else if (lower.includes("hayır")) {
-      botResponse = "Peki, ne zaman istersen buradayım! Her zaman öneri isteyebilirsin.";
+      botResponse = "Tamam";
      }
 
-     else if (lower.includes("kimsin") || lower.includes("adın") || lower.includes("ismin") ) {
-      botResponse = "Adım Finza. Tekrar memnun oldum 🙂. Yardımcı olabileceğim bir konu var mı?";
-     }
 
          else if (lower.includes("neden") || lower.includes("detay")|| lower.includes("neye dayanarak") || (lower.includes("nasıl") && (lower.includes("öngörüde")))) {
-      botResponse = AI_RECOMMENDATIONS[iterations] || "Üzgünüm şu an isteğini yerine getiremiyorum 🙁 Farklı bir konuda öneri ister misin?";
+      botResponse = AI_RECOMMENDATIONS[iterations] || "Şu anda isteğiniz yerine getirilememektedir.";
      }
-
-    else if (lower.includes("teşekkür ed") || lower.includes("teşekkürl") || lower.includes("teşekkür et") ) {
-      botResponse = "Rica ederim 🙂. Yardımcı olabileceğim başka bir konu var mı?";
-     }
-
-
-     else if (lower.includes("yanlış") || lower.includes("hata")) {
-      botResponse = "Özür dilerim. Tekrar olmaması için öğreniyorum 🙂";
-     }
-
 
      
     //STK'lara göre
     else if (lower.includes("stk1")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK1[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+      botResponse = AI_RECOMMENDATIONS_FORSTK1[iterations] || "Şu anda isteğiniz yerine getirilememektedir.";
     }
 
     else if (lower.includes("stk2")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK2[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+      botResponse = AI_RECOMMENDATIONS_FORSTK2[iterations] || "Şu anda isteğiniz yerine getirilememektedir.";
     }
 
     else if (lower.includes("stk3")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK3[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁Farklı bir konuda öneri ister misin?";
+      botResponse = AI_RECOMMENDATIONS_FORSTK3[iterations] || "Şu anda isteğiniz yerine getirilememektedir.";
     }
 
     else if (lower.includes("stk4")) {
-      botResponse = AI_RECOMMENDATIONS_FORSTK4[iterations] || "Üzgünüm şu an öneri sunamıyorum 🙁 Farklı bir konuda öneri ister misin?";
+      botResponse = AI_RECOMMENDATIONS_FORSTK4[iterations] || "Şu anda isteğiniz yerine getirilememektedir.";
     }
 
 
-else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü") ||
+else if (lower.includes("ne önerir") || lower.includes("yatırım") || lower.includes("hangi hisse") || lower.includes("yatır") ||  lower.includes("tavsiye") || lower.includes("öner") || lower.includes ("düşünü") ||
       lower.includes("kaç adet") || lower.includes("kaçar") || lower.includes("ne kadar") || lower.includes("ne yapmalı") ) {
   const currentPlan = OPTIMIZED_QUANTITIES[iterations + 1];
   if (currentPlan) {
@@ -473,31 +432,21 @@ else if (lower.includes("ne önerirsin") || lower.includes("yatırım") || lower
       `STK1 hissesinden ${currentPlan.STK1} adet\n` +
       `STK2 hissesinden  ${currentPlan.STK2} adet\n` +
       `STK3 hissesinden ${currentPlan.STK3} adet\n` +
-      ` STK4 hissesinden ${currentPlan.STK4} adet\n elinde bulundurmanı öneririm.`;
+      ` STK4 hissesinden ${currentPlan.STK4} adet\n bulundurmalısınız.`;
   } else {
-    botResponse = "Şu an için öneri bulunmamaktadır 🙁";
+    botResponse = "Şu an öneri sunulamamaktadır.";
   }
 }
 
 
     //Sonradan eklenenler
-    else if (lower.includes("yardım") || lower.includes("destek")) {
-      botResponse =  "Hangi konuda yardımcı olabilirim? 🙂";
-    }
 
     else if (lower.includes("hisse senedi") || lower.includes("senet") || lower.includes("senedi") ) {
-      botResponse =  "Hangi hisse senedi hakkında bilgi almak istersin?";
+      botResponse =  "Hangi hisse senedi hakkında bilgi almak istiyorsunuz?";
     }
 
-    else if (lower.includes("karar veremedim") || lower.includes("kararsızım") ) {
-      botResponse =  "Biraz daha yönlendirme yapmamı ister misin?";
-    }
 
     //Hesaplama
-
-      else if (lower.includes("TL")) {
-      botResponse =  "Biraz daha yönlendirme yapmamı ister misin?";
-    }
 
 
 
@@ -740,10 +689,8 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
     
     {/* Chatbot Bölümü */}
     <div className="flex-1">
-      <div className="flex items-center gap-2 mb-2">
-        <img src={roboAvatar} alt="roboadvisor" className="w-12 h-12 rounded-full shadow" />
-
-        <span className="font-bold">Finza</span>
+     <div className="flex items-center gap-2 mb-2">
+       <span className="font-bold">Robo-Danışman</span>
       </div>
 
       <div className="bg-white shadow rounded p-6 h-[28rem] overflow-auto space-y-3 text-base">
@@ -891,10 +838,10 @@ XLSX.utils.book_append_sheet(workbook, comparisonSheet, "Planlama vs Gerçekleş
   
             {/* Chatbot */}
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <img src={roboAvatar} alt="roboadvisor" className="w-12 h-12 rounded-full shadow" />
-                <span className="font-bold">Finza</span>
-              </div>
+           <div className="flex items-center gap-2 mb-2">
+             <span className="font-bold">Robo-Danışman</span>
+            </div>
+
               <div className="bg-white shadow rounded p-6 h-[28rem] overflow-auto space-y-3 text-base">
 
                 {chatHistory.map((msg, i) => (
