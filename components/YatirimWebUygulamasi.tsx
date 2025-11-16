@@ -80,10 +80,10 @@ const OPTIMIZED_QUANTITIES: Record<number, StockMap> = {
   4: { STK1: 110, STK2: 1, STK3: 77, STK4: 28 },
   5: { STK1: 134, STK2: 2, STK3: 1, STK4: 9 },
   6: { STK1: 10, STK2: 35, STK3: 11, STK4: 9 },
-  7: { STK1: 20, STK2: 5, STK3: 1, STK4: 8 },
+  7: { STK1: 20, STK2: 4, STK3: 1, STK4: 8 },
   8: { STK1: 57, STK2: 1, STK3: 2, STK4: 5 },
   9: { STK1: 62, STK2: 50, STK3: 29, STK4: 1 },
- 10: { STK1: 74, STK2: 3, STK3: 2, STK4: 43 },
+ 10: { STK1: 74, STK2: 2, STK3: 2, STK4: 43 },
  11: { STK1: 12, STK2: 2, STK3: 17, STK4: 8 },
  12: { STK1: 7, STK2: 17, STK3: 1, STK4: 9 },
 };
