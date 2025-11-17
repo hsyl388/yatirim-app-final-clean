@@ -12,5 +12,5 @@ export const AI_RECOMMENDATIONS_FORSTK4: Record<number, string> = {
   8:  "Yatay seyir öngörülüyor. Portföyünde diğer hisselere ağırlık vermelisin.",
   9:  "Mağaza açılışları büyüme potansiyelini artırıyor. Kısa vadeli portföyde yer verilebilir.",
   10: "Artan maliyetler kâr marjını daraltsa da hisse dirençli durabilir. Kısmi işlemmlerde değerlendirebilirsin.",
-  11: "İlk çeyrek açıklamasına rağmen mevcut durumda bu hisseden kayda değer bir artış beklemiyorum.",
+  11: "İlk çeyrek açıklamasına rağmen mevcut durumda bu hisseden kayda değer bir artış beklemiyorum.", 
 };

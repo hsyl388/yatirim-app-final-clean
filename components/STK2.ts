@@ -12,5 +12,5 @@ export const AI_RECOMMENDATIONS_FORSTK2: Record<number, string> = {
   8:  "Kredi hacminin artması olumlu, ancak kur dalgalanmaları etkisini törpüleyebilir. Yine de olumlu yaklaşabiliriz.",
   9:  "Özkaynak hedefinin tutturulamaması ciddi bir negatif sinyal. Portföyde az miktarda tutulmalı",
   10: "Sınırlı hareket beklentisi hakim. Portföy çeşitliliği açısından tutulabilir ama yüksek getiri beklenmemeli.",
-  11: "Faiz artışlarının etkisi devam ediyor. Küçük alımlarla şansını deneyebilirsin.",
+  11: "Faiz artışlarının etkisi devam ediyor. Küçük alımlarla şansını deneyebilirsin.", 
 };

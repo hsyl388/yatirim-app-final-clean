@@ -10,7 +10,6 @@ export const AI_RECOMMENDATIONS: Record<number, string> = {
   8:  "Devlet destekli teşvikler ve genişleyen kredi hacmi sanayi hisselerini destekliyor. STK1 ve STK3 öncelik kazanıyor. STK2’nin performansını da olumlu görebiliriz. STK4 için ise bu turda daha düşük bir öneri sunmak istedim. 😉",
   9:  "STK1 için ACN'ye teşvik beklentileri ve ihaleler fırsat yaratıyor. STK4’te KTM mağazasının büyümesi pozitif sinyaller veriyor. STK2 ve STK3’te ise beklentiler aşağı yönlü. Ağırlığı pozitif gelişmelere sahip hisselere vermeliyiz.",
   10: "Jeopolitik belirsizliklerin etkisi yüksek. Bu nedenle portföy genelinde korumacı bir yaklaşım benimsiyorum. STK3 son karlılık açıklamasının ardından önemli bir potansiyel taşıyor. STK1 ve STK4’te sınırlı alım yapılabilir düzeyde kalınmasında fayda var.",
-  11: "Makro verilerdeki belirsizlik ve faiz artışları nedeniyle genel risk seviyesi yükseliyor. STK4, güçlü bilançosuna rağmen sınırlı getiri sağlayabilir. Bu nedenle önerilerimi daha temkinli bir şekilde ilerlemeliyiz 🙂",
-
+  11: "Makro verilerdeki belirsizlik ve faiz artışları nedeniyle genel risk seviyesi yükseliyor. STK4, güçlü bilançosuna rağmen sınırlı getiri sağlayabilir. Bu nedenle önerilerimi daha temkinli bir şekilde ilerlemeliyiz 🙂", 
 
 };

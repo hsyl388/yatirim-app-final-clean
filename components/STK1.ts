@@ -12,6 +12,6 @@ export const AI_RECOMMENDATIONS_FORSTK1: Record<number, string> = {
   8:  "Avantajlı pozisyonunu sürdüreceğini düşünüyorum. Portföyde yer vermek mantıklı.",
   9:  "Devlet teşvikleri ve ihaleler artarken finansman sıkıntısı azaldı. Güçlü alım sinyali!",
   10: "İhracat gelirleri yükselmeye devam ediyor. Ancak son gelişmelerle değer kaybı yaşanma ihtimali oldukça yüksek.",
-  11: "Jeopolitik gerilimin devam etmesinin bu hisseyi olumsuz etkileyeceğini düşünüyorum.",
+  11: "Jeopolitik gerilimin devam etmesinin bu hisseyi olumsuz etkileyeceğini düşünüyorum.", 
 };
 

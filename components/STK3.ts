@@ -15,3 +15,4 @@ export const AI_RECOMMENDATIONS_FORSTK3: Record<number, string> = {
   10: "Karlılık beklenenden yüksek çıktı. Jeopolitik belirsizlik göz ardı edilmemeli. Hafif risk alınabilir, ama trend takip edilmeli. 😉",
   11: "Son dönemdeki dalgalanmalardan dolayı kısa vadede zarara uğratma ihtimalini yüksek buluyorum.",
 };
+  
